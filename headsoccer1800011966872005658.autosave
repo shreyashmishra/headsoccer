@@ -1,0 +1,102 @@
+/* Shreyash Mishra*
+ *Head Basketball Assignment*
+ ********************/
+
+//Shreyash Mishra, ICS 3U1,Head Basketball
+
+// Last worked on: January 19, 2022 <
+PImage background, backgroundGameState1, headbasketballbackground, player1, player2;
+boolean moveRight, moveLeft;
+int canvasSizeX= 1000;
+int canvasSizeY = 600;
+int mainBackgroundX = 1000;
+int mainBackgroundY = 600;
+int gameState1 = 1;
+int player1X = 100;
+int player1Y = 200;
+int player2X = 100;
+int player2Y = 200;
+int backgroundGameState1X= 1000;
+int backgroundGameState1Y=600;
+int time;
+int player1MovmentX = 100;
+int player2MovmentX = 700;
+
+
+void setup() {
+  //size of canvas
+  size(1000, 600);
+  //Loaded images and called them, also made sure to resize them in order to match the canvas size or to make program more asthetically pleasing
+  background = loadImage("headbasketballbackground.png");
+  background.resize(mainBackgroundX, mainBackgroundY);
+  backgroundGameState1 = loadImage("backgroundgamestate1.png");
+  backgroundGameState1.resize(backgroundGameState1X, backgroundGameState1Y);
+  player1 = loadImage("steph.png");
+  player1.resize(player1X, player1Y);
+  player2 = loadImage("paul.png");
+  player2.resize(player2X, player2Y);
+
+  time=millis();
+}
+
+void draw() {
+  if (gameState1 == 1) {
+    background(backgroundGameState1);
+    if (millis() > time + 1000) {
+      text("Click On Space To Enter The Game!", 100, 100);
+      textSize(50);
+      // delay(3000);
+    }
+    drawGameState1();
+  }     
+  if (gameState1 == 2) {
+    background(background);
+    image(player1, player1MovmentX, 300);
+    image(player2, player2MovmentX, 300);
+  } 
+  //  if (gameState2 == 3) {
+  //  text("Congrats you won!");
+  //}
+}
+
+void drawGameState1() {
+}
+void drawGameState2() {
+  drawPlayer1Movment();
+}
+void drawPlayer1Movment() {
+  if (moveRight) {
+    player1MovmentX += 25;
+  }
+  if (moveLeft) {
+    player1MovmentX -= 25;
+  }
+}
+void drawGameState3() {
+}
+
+
+void keyPressed() {
+  if (gameState1 == 1) {
+    if (keyCode == 32) {
+      gameState1 = 2;
+    }
+  } else if (gameState1 == 2) {
+    if (keyCode == RIGHT) {
+      moveRight = true;
+      player1MovmentX += 25;
+    }
+   if(keyCode == LEFT){
+    moveLeft = true; 
+    player1MovmentX -= 25;
+   }
+  }
+}
+void keyReleased() {
+  if (keyCode == RIGHT) {
+    moveRight = false;
+  }
+  if(keyCode == LEFT){
+   moveLeft = false; 
+  }
+}
