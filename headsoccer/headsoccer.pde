@@ -239,13 +239,16 @@ void drawCollisonDetection() {
 
   for (ImageWithPosition imageBeingCheckedForCollision : collidingImages) {
     System.out.println(Position.x+"   "+imageBeingCheckedForCollision.getXpos()+"  w:"+imageBeingCheckedForCollision.getImage().width);
+    xSpeed = abs(xSpeed);
 
-      //System.out.println(Position.x+"ok");
-   if(Position.x < imageBeingCheckedForCollision.getXpos()+imageBeingCheckedForCollision.getImage().width && Position.x > imageBeingCheckedForCollision.getXpos())  {
+    //System.out.println(Position.x+"ok");
+    if (Position.x < imageBeingCheckedForCollision.getXpos()+imageBeingCheckedForCollision.getImage().width && Position.x > imageBeingCheckedForCollision.getXpos()) {
       // collisionCode here, refer to the currently looked at image as "img"
+
 
       //xSpeed = abs(xSpeed);
       System.out.println("yea I'm colliding"+imageBeingCheckedForCollision);
+      xSpeed = -xSpeed;
 
     }
   }
