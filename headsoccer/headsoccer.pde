@@ -2,9 +2,9 @@
  *Head Basketball Assignment*
  ********************/
 
-//Shreyash Mishra, ICS 3U1,Head Basketball
+//Shreyash Mishra, ICS 3U1,Head Basketball, this project was made through restrictions to restrict all objects inside the canvas, multiple game states, and through collision detection
 
-// Last worked on: January 23, 2022 <
+// Last worked on: January 26, 2022 <
 
 PImage background, backgroundGameState1, headbasketballbackground, player1, player2;
 boolean moveRight, moveLeft, moveRight2, moveLeft2;
@@ -56,7 +56,7 @@ void setup() {
   xButton = 0;
   yButton = 0;
 }
-
+//f
 void draw() {
   if (gameState1 == 1) {
     background(backgroundGameState1);
@@ -174,7 +174,7 @@ void drawPlayer2Movment() {
 
 //pvectors used here
 void drawBall() {
-  ellipse(Position.x, Position.y, 30, 30);
+  ellipse(Position.x, Position.y, 50, 50);
 
   fill(0, 0, 0);
 }
@@ -239,7 +239,7 @@ void drawCollisonDetection() {
 
   for (ImageWithPosition imageBeingCheckedForCollision : collidingImages) {
     System.out.println(Position.x+"   "+imageBeingCheckedForCollision.getXpos()+"  w:"+imageBeingCheckedForCollision.getImage().width);
-    xSpeed = abs(xSpeed);
+    xSpeed = -xSpeed;
 
     //System.out.println(Position.x+"ok");
     if (Position.x < imageBeingCheckedForCollision.getXpos()+imageBeingCheckedForCollision.getImage().width && Position.x > imageBeingCheckedForCollision.getXpos()) {
@@ -251,7 +251,18 @@ void drawCollisonDetection() {
       xSpeed = -xSpeed;
 
     }
+    if(Position.y < imageBeingCheckedForCollision.getYpos()+imageBeingCheckedForCollision.getImage().height && Position.y > imageBeingCheckedForCollision.getYpos()){
+      //if(imageBeingCheckedForCollision == ){
+   //if(colliding with y){
+      //HERE the ball collides with both X and Y, meaning it's exactly on the image.
+   }
+}
+    }
+   // if(){
+      
+    //}
   }
+  
 }
 class ImageWithPosition {
   private PImage player1;
@@ -304,9 +315,9 @@ void keyPressed() {
     if (keyCode == 65) {
       moveLeft2 = true;
     }
-    if (keyCode == UP) {
-      Velocity.y = -70;
-    }
+   // if (keyCode == UP) {
+     // Velocity.y = -70;
+    //}
   }
 }
 
