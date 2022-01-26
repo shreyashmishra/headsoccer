@@ -5,6 +5,7 @@
 //Shreyash Mishra, ICS 3U1,Head Basketball
 
 // Last worked on: January 23, 2022 <
+
 PImage background, backgroundGameState1, headbasketballbackground, player1, player2;
 boolean moveRight, moveLeft, moveRight2, moveLeft2;
 int canvasSizeX= 1000;
@@ -30,7 +31,8 @@ int xSpeed;
 int ySpeed;
 int xButton = 20;
 int yButton = 20;
-
+ImageWithPosition steph; 
+ImageWithPosition kobe;
 void setup() {
   //size of canvas is 1000 on the X-axis by 600 on the y-axis
   size(1000, 600);
@@ -46,6 +48,8 @@ void setup() {
   //resized the png
   player2.resize(player2X, player2Y);
 
+  steph = new ImageWithPosition(player1, player1MovmentX, 300);
+  kobe = new ImageWithPosition(player2, player2MovmentX, 300);
   time=millis();
   xSpeed = 2;
   ySpeed = 3;
@@ -59,7 +63,7 @@ void draw() {
     if (millis() > time + 1000) {
       fill(255, 255, 255);
       textSize(40);
-    //  text("Click on 'h' or 'H' to access the how to play page!", 10, 200);
+      //  text("Click on 'h' or 'H' to access the how to play page!", 10, 200);
 
       // delay(3000); Used as a test to see how the  delay would work and found it to be extremely slow so I increased it to 1000 milliseconds
     }
@@ -69,7 +73,7 @@ void draw() {
     background(0, 0, 0);
     String howToPlay = "How to play Head Basketball Remake";
     textSize(36);
-    fill(255,255,255);
+    fill(255, 255, 255);
     text(howToPlay, 200, 100);
     rect(490, 150, 10, 400);
     textSize(24);
@@ -85,14 +89,16 @@ void draw() {
   }
   if (gameState1 == 2) {
     background(background);
-    image(player1, player1MovmentX, 300);
-    image(player2, player2MovmentX, 300);
+    steph.setXpos(player1MovmentX);
+    kobe.setXpos(player2MovmentX);
+    steph.drawImage();
+    kobe.drawImage();
     drawGameState2();
     if (millis() < time + 1000) {
-    //  text("Click On Space To Play!", 100, 100);
+      //  text("Click On Space To Play!", 100, 100);
       textSize(20);
       textSize(40);
-   //   text("Click on 'h' or 'H' to access the how to play page!", 10, 200);
+      //   text("Click on 'h' or 'H' to access the how to play page!", 10, 200);
 
       // delay(3000); Used as a test to see how the  delay would work and found it to be extremely slow so I increased it to 1000 milliseconds
     }
@@ -115,27 +121,26 @@ void draw() {
   //}
 }
 void drawGameState1() {
-  fill(0,0,0);
+  fill(0, 0, 0);
   drawButton(10, 0, 200, 100);
-    textSize(20);
-    fill(255,255,255);
-   text("Click on the button",10,20);
-   text("to learn how to play",10,50);
-   text("head basketball", 10, 80);
-      fill(0,0,0);
-   drawButton1(300,0,200,100);
+  textSize(20);
+  fill(255, 255, 255);
+  text("Click on the button", 10, 20);
+  text("to learn how to play", 10, 50);
+  text("head basketball", 10, 80);
+  fill(0, 0, 0);
+  drawButton1(300, 0, 200, 100);
 
-   fill(255,255,255);
-   text("Click to play", 305,20);
-   text("headbasketball!", 305, 50);
-  
+  fill(255, 255, 255);
+  text("Click to play", 305, 20);
+  text("headbasketball!", 305, 50);
 }
 void drawGameState0() {
-  fill(255,255,255);
-  drawButton2(0,450,175,100);
-fill(0,0,0);
-  text("Click to go to", 10,500);
-  text("homescreen!",10, 530);
+  fill(255, 255, 255);
+  drawButton2(0, 450, 175, 100);
+  fill(0, 0, 0);
+  text("Click to go to", 10, 500);
+  text("homescreen!", 10, 530);
 }
 void drawGameState() {
 }
@@ -146,6 +151,7 @@ void drawGameState2() {
   moveBall();
   drawPlayer1Movment();
   drawPlayer2Movment();
+  drawCollisonDetection();
 }
 void drawGameState3() {
 }
@@ -169,6 +175,7 @@ void drawPlayer2Movment() {
 //pvectors used here
 void drawBall() {
   ellipse(Position.x, Position.y, 30, 30);
+
   fill(0, 0, 0);
 }
 
@@ -205,6 +212,7 @@ void checkIfBallHitEdge() {
     }
   }
 }
+
 void drawButton(int xButton, int yButton, int Width, int tall) {
   rect(xButton, yButton, Width, tall);
   if (mouseX > xButton && mouseX < xButton + Width &&  mouseY > yButton && mouseY < yButton + tall && mousePressed) {
@@ -220,10 +228,57 @@ void drawButton1(int xButton, int yButton, int Width, int tall) {
 void drawButton2(int xButton, int yButton, int Width, int tall) {
   rect(xButton, yButton, Width, tall);
   if (mouseX > xButton && mouseX < xButton + Width &&  mouseY > yButton && mouseY < yButton + tall && mousePressed) {
-   gameState1 = 1;
+    gameState1 = 1;
   }
 }
+void drawCollisonDetection() {
+  ArrayList<ImageWithPosition> collidingImages = new ArrayList();
+  collidingImages.add(kobe);
+  collidingImages.add(steph);
 
+
+  for (ImageWithPosition imageBeingCheckedForCollision : collidingImages) {
+    System.out.println(Position.x+"   "+imageBeingCheckedForCollision.getXpos()+"  w:"+imageBeingCheckedForCollision.getImage().width);
+
+      //System.out.println(Position.x+"ok");
+   if(Position.x < imageBeingCheckedForCollision.getXpos()+imageBeingCheckedForCollision.getImage().width && Position.x > imageBeingCheckedForCollision.getXpos())  {
+      // collisionCode here, refer to the currently looked at image as "img"
+
+      //xSpeed = abs(xSpeed);
+      System.out.println("yea I'm colliding"+imageBeingCheckedForCollision);
+
+    }
+  }
+}
+class ImageWithPosition {
+  private PImage player1;
+  private int xPos, yPos;
+  public ImageWithPosition(PImage player1, int xPos, int yPos) {
+    this.player1 = player1;
+    this.xPos = xPos;
+    this.yPos = yPos;
+  }
+
+  public void drawImage() { 
+    image(player1, xPos, yPos);
+  }  
+  public int getXpos() {
+    return xPos;
+  }
+  public int getYpos() {
+    return yPos;
+  }
+
+  public void setXpos(int newXpos) {
+    this.xPos=newXpos;
+  }
+  public void setypos(int newYpos) {
+    this.yPos = newYpos;
+  }
+  public PImage getImage() {
+    return player1;
+  }
+}
 
 void keyPressed() {
   if (gameState1 == 1) {
