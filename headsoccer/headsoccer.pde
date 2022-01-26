@@ -47,19 +47,21 @@ void setup() {
   player2 = loadImage("kobe.png");
   //resized the png
   player2.resize(player2X, player2Y);
-
+  //Gave coordinates to "steph" in order to track the coordinates in code written further down
   steph = new ImageWithPosition(player1, player1MovmentX, 300);
+  //gave coordinates to "kobe" in order to track the coordinates in code written furhter dwon
   kobe = new ImageWithPosition(player2, player2MovmentX, 300);
   time=millis();
+  //created a timer just
   xSpeed = 2;
   ySpeed = 3;
-  xButton = 0;
-  yButton = 0;
 }
 //f
 void draw() {
   if (gameState1 == 1) {
+    //set background of gameState1 to the headbasketball banner
     background(backgroundGameState1);
+    //made a timer to say 
     if (millis() > time + 1000) {
       fill(255, 255, 255);
       textSize(40);
@@ -238,32 +240,27 @@ void drawCollisonDetection() {
 
 
   for (ImageWithPosition imageBeingCheckedForCollision : collidingImages) {
-    System.out.println(Position.x+"   "+imageBeingCheckedForCollision.getXpos()+"  w:"+imageBeingCheckedForCollision.getImage().width);
+    System.out.println(Position.x+"   "+imageBeingCheckedForCollision.getXpos()+"  w:"+imageBeingCheckedForCollision.getImage().width);//Used for debugging purposes
     xSpeed = -xSpeed;
-
-    //System.out.println(Position.x+"ok");
     if (Position.x < imageBeingCheckedForCollision.getXpos()+imageBeingCheckedForCollision.getImage().width && Position.x > imageBeingCheckedForCollision.getXpos()) {
-      // collisionCode here, refer to the currently looked at image as "img"
-
-
-      //xSpeed = abs(xSpeed);
-      System.out.println("yea I'm colliding"+imageBeingCheckedForCollision);
-      xSpeed = -xSpeed;
-
+      if (Position.y < imageBeingCheckedForCollision.getYpos()+imageBeingCheckedForCollision.getImage().height && Position.y > imageBeingCheckedForCollision.getYpos()) {
+        //Within both of these IFs, you have a proper collision in both x and y
+        //PUT CODE REACTING TO A COLLISION HERE
+        xSpeed = -xSpeed;
+        Velocity.y = -70;
+      }
     }
-    if(Position.y < imageBeingCheckedForCollision.getYpos()+imageBeingCheckedForCollision.getImage().height && Position.y > imageBeingCheckedForCollision.getYpos()){
-      //if(imageBeingCheckedForCollision == ){
-   //if(colliding with y){
-      //HERE the ball collides with both X and Y, meaning it's exactly on the image.
-   }
-}
-    }
-   // if(){
-      
-    //}
+
+    System.out.println("yea I'm colliding"+imageBeingCheckedForCollision);
+    // System.out.println("colliding with: "+imageBeingCheckedForCollision);
   }
-  
 }
+
+
+
+//}
+
+//}
 class ImageWithPosition {
   private PImage player1;
   private int xPos, yPos;
@@ -296,9 +293,11 @@ class ImageWithPosition {
 
 void keyPressed() {
   if (gameState1 == 1) {
+    //if the space bar is clicked then gameState1 will switch to the second screen(The game screen)
     if (keyCode == 32) {
       gameState1 = 2;
     }
+    //when H is clicked on then 
     if (keyCode == 72) {
       gameState1 = 0;
     }
@@ -315,23 +314,27 @@ void keyPressed() {
     if (keyCode == 65) {
       moveLeft2 = true;
     }
-   // if (keyCode == UP) {
-     // Velocity.y = -70;
+    //if (keyCode == UP) {
+    //Velocity.y = -70;
     //}
   }
 }
 
 
-void keyReleased() {
+void keyReleased() {//tells what happend when any key is released
+  //When right key is released, you can no longer move right with player1
   if (keyCode == RIGHT) {
     moveRight = false;
   }
+  //when left key is released, you can no longer move left with player1
   if (keyCode == LEFT) {
     moveLeft = false;
   }
+  //when 'd' or 'D' is released, you can no longer move right with player2
   if (keyCode == 68) {
     moveRight2 = false;
   }
+  //when 'a' or 'A' is released, you can no longer move right with player2
   if (keyCode == 65) {
     moveLeft2 = false;
   }
